@@ -22,24 +22,24 @@ class meuhash{
 int meuhash::get(int chave)
 {
 	if(chave == NULL)
-			return NULL;
-		int hash  = fhash(chave);
-		int i = 0;
-		int mfind = hash/16;
-		while(hashTable[hash] != NULL && hashTable[hash] != chave && i<TAMBUCKET)
-		{
-			i++;
-			hash = (hash+1) % TAMBUCKET;
-			mfind = hash/16;
-		}
-		pthread_mutex_lock(&mutex[mfind]);
-		int ret = hashTable[hash];
-		if(ret != NULL){
-			hashTable[hash] = NULL;
-			tamanho --;
-		}
-		pthread_mutex_unlock(&mutex[mfind]);
-		return ret;
+		return NULL;
+	int hash  = fhash(chave);
+	int i = 0;
+	int mfind = hash/16;
+	while(hashTable[hash] != NULL && hashTable[hash] != chave && i<TAMBUCKET)
+	{
+		i++;
+		hash = (hash+1) % TAMBUCKET;
+		mfind = hash/16;
+	}
+	pthread_mutex_lock(&mutex[mfind]);
+	int ret = hashTable[hash];
+	if(ret != NULL){
+		hashTable[hash] = NULL;
+		tamanho --;
+	}
+	pthread_mutex_unlock(&mutex[mfind]);
+	return ret;
 
 }
 
