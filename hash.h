@@ -87,18 +87,22 @@ class meuhashEncadeado
 void meuhashEncadeado::put(int chave)
 {
 	int hash = fhash(chave);
-	no *aux = hashTable[hash];
-	//se ele não estiver vazio procura o fim da lista encadeada
-	if(aux->content != NULL)
+	no *topo = hashTable[hash];
+	//se ele não estiver vazio insere depois do topo, e passa o fim da lista para ele
+	if(topo->content != NULL)
 	{
-		while(aux!= NULL)
-		{
-			aux = aux->prox;
-		}
+		no *aux = new no;
+		pthread_mutex_lock(&aux->mutex);
+		aux->content = chave;
+		aux->prox = topo->prox;
+		topo->prox = aux;
+		pthread_mutex_unlock(&aux->mutex);
+
+	}else{
+		pthread_mutex_lock(&topo->mutex);
+		topo->content = chave;
+		pthread_mutex_unlock(&topo->mutex);
 	}
-	pthread_mutex_lock(&aux->mutex);
-	aux->content = chave;
-	pthread_mutex_unlock(&aux->mutex);
 }
 
 int meuhashEncadeado::get(int chave)
