@@ -1,4 +1,4 @@
-#include"hash.h"
+#include"hash2.h"
 #include<stdlib.h>
 #include<iostream>
 
@@ -6,13 +6,18 @@ using namespace std;
 
 
 void* acessa(void* arg){
+  int i;
 	float ratio = 800;
 	meuhash* h = (meuhash*)arg;
-	for(int i=0;i<1000;i++){
-		if(rand()%1000<ratio)
-			h.put(rand%2000);
-		else
-			h.get(rand%2000);
+
+	for(i=0;i<1000;i++){
+
+		if(rand()%1000<ratio){
+			h->put(rand()%2000);
+		} else {
+			//h->get(rand()%2000);
+		}
+
 		if(i%10==0){
 			ratio=(150 + ratio)/2.71;
 		}
