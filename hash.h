@@ -58,6 +58,29 @@ void meuhash::put(int chave)
 	pthread_mutex_unlock(&mutex_OA[i]->lock);
 }
 
+int meuhash::get (int chave)
+{
+	int ret; /* variavel de retorno */
+	int positionHash,i,cont;
+	positionHash = fhash(chave);
+	cont = 0;
+	i = positionHash/16;
+	pthread_mutex_lock(&mutex_OA[i]->lock);
+	while( (*hashTable[positionHash] != chave) && cont < TAMBUCKET){
+		pthread_mutex_unlock(&mutex_OA[i]->lock);
+		positionHash = (positionHash + 1) % TAMBUCKET;
+		cont++;
+		i = positionHash/16;
+		pthread_mutex_lock(&mutex_OA[i]->lock);
+	}
+	ret = *hashTable[positionHash];
+	hashTable[positionHash] = NULL; /*não sei se é um delete ou receber um NULL então deixei assim (°.°')   */
+
+	//cout<<hashTable[positionHash]<<" "<<*hashTable[positionHash]<<endl;
+	pthread_mutex_unlock(&mutex_OA[i]->lock);
+	return ret;
+}
+
  // class meuhashEncadeado
 // {
 // 	public:
