@@ -1,4 +1,4 @@
-#include"hash2.h"
+#include"hash.h"
 #include<stdlib.h>
 #include<iostream>
 
@@ -15,7 +15,7 @@ void* acessa(void* arg){
 		if(rand()%1000<ratio){
 			h->put(rand()%2000);
 		} else {
-			//h->get(rand()%2000);
+			h->get(rand()%2000);
 		}
 
 		if(i%10==0){

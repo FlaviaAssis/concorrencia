@@ -29,7 +29,7 @@ class meuhash{
 		for(i = 0; i < 64; i++){
 			mutex_OA[i] = new hash_oa;
 			a = pthread_mutex_init(&(mutex_OA[i]->lock), NULL);
-			//cout<<i<<" "<<a<<endl;
+			cout<<i<<" "<<a<<endl;
 		}
 
 	}
